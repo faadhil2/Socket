@@ -11,11 +11,13 @@
 #include <sys/stat.h>
 #include <string.h>
 #include <arpa/inet.h>
+#include <time.h>
 
 #define MAXLINE 100
 
 int c,s,port;
 struct sockaddr_in server, client;
+struct tm *timeStruct;
 char *ipaddress = "127.0.1.172"; // what IP address are we supposed to used?
 int clientlen = sizeof(client);
 int portset=0;
@@ -23,6 +25,7 @@ char *message;
 FILE * fp;
 char config[MAXLINE];
 extern int errno;
+char *date;
 
 int main(int argc, char* argv[]){
 
@@ -104,13 +107,27 @@ int main(int argc, char* argv[]){
     printf("Connection established with port : %d\n",port);
 
     char buffer[30000] = {0};
-    valread = read(c, buffer, 30000);
+    valread = read(c, buffer, 2000);
     printf("%s\n",buffer );
     write(c, hello , strlen(hello));
     printf("------------------Hello message sent-------------------\n");
     close(c);
-
   }
-
   return (0);
+}
+
+void OK_200() {
+  write(c, "HTTP/1.0 200 OK\r\n", 17);
+  time_t currentTime;
+  time(&currentTime);
+  timeStruct = gmtime(&currentTime);
+
+  date = asctime(timeStruct);
+  write(c, date, strlen(date));
+  write(c, "Server: AServer 0.1\r\n", 21);
+  write(c, "Connection: close\r\n", 19);
+  write(c, "Content-Type: text/plain; charset=iso-8859-1\r\n", 46);
+  write(c, "\r\n", 2);
+  write(c, "201 Created", 11);
+  close(c);
 }
