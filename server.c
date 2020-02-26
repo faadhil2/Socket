@@ -12,7 +12,6 @@
 #include <string.h>
 #include <arpa/inet.h>
 #include <time.h>
-#include <stdbool.h>
 #define MAXLINE 100
 
 int c,s,port;
@@ -39,8 +38,8 @@ void ok() {
   write(c, "Date: ", 5);
   write(c,  date, strlen(date));
   write(c, "Server: AServer 0.1\r\n", 21);
-  write(c, "Content-Length: ", 15); 
-  write(c, " 2 \r\n", 6); 
+  write(c, "Content-Length: ", 15);
+  write(c, " 2 \r\n", 6);
   write(c, "Connection: close\r\n", 19);
   write(c, "Content-Type: text/plain; charset=iso-8859-1\r\n", 46);
   write(c, "\r\n", 2);
@@ -62,7 +61,7 @@ void created() {
   write(c, "Server: AServer 0.1\r\n", 21);
   write(c, "Connection: close\r\n", 19);
   write(c, "Content-Type: text/plain; charset=iso-8859-1\r\n", 46);
-  write(c, "Content-Length: ", 15); 
+  write(c, "Content-Length: ", 15);
   write(c, "\r\n", 2);
   write(c, "201 Created", 11);
   write(c, "\r\n\r\n", 4);
@@ -79,7 +78,7 @@ void head() {
   write(c, "Date: ", 5);
   write(c,  date, strlen(date));
   write(c, "Server: AServer 0.1\r\n", 21);
-  write(c, "Content-Length: ", 15); 
+  write(c, "Content-Length: ", 15);
   write(c, "Connection: close\r\n", 19);
   write(c, "Content-Type: text/plain; charset=iso-8859-1\r\n", 46);
   write(c, "\r\n", 2);
